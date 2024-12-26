@@ -4,19 +4,18 @@ import bcrypt from "bcryptjs";
 const userSchema = new mongoose.Schema({
     name : {
         type: String,
-        required: [true, "Name is required"]
+        required: [true]
     },
     email : {
         type: String,
-        required: [true, "Email is required"],
+        required: [true],
         unique: true,
         lowercase: true,
         trim: true
     },
     password : {
         type: String,
-        required: [true, "Password is required"],
-        minlength: [6, "Password must be at least 6 characters long"]
+        required: [true],
     },
     cartItems : [
         {
@@ -52,6 +51,7 @@ userSchema.pre("save", async function(next) {
         next(error);
     }
 });
+
 
 userSchema.methods.comparePasswords = async function(password) {
     return await bcrypt.compare(password, this.password);
